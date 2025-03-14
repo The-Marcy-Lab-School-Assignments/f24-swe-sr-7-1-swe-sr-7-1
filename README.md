@@ -14,6 +14,27 @@ Explain how the useState hook is used in React to manage state within functional
 
 ### Response 2
 
+In React, we can create a Counter component that initializes with a value of 0 when the page loads. Whenever the user clicks on the counter, its value should increase and update dynamically on the screen. To achieve this, we use the useState hook, which allows React to track and manage state changes efficiently. When the counter’s state is updated using the setter function from useState, React detects the change and automatically re-renders the component, ensuring that the displayed count always reflects the most recent value.
+
+Example Code:
+
+```javascript
+import React, { useState } from "react";
+
+const Counter = () => {
+  const [count, setCount] = useState(0); // Initialize state with 0
+
+  return (
+    <div>
+      <h1>Counter: {count}</h1>
+      <button onClick={() => setCount(count + 1)}>Increase</button>
+    </div>
+  );
+};
+```
+
+export default Counter;
+
 ## Prompt 3
 
 Describe the different ways the useEffect hook can be triggered in a React component. Include an explanation of how the dependency array influences its behavior. If possible, provide a code example for each scenario to illustrate your explanation.
@@ -26,21 +47,26 @@ The component below makes a mistake when using useEffect. When running this code
 
 ```js
 const DogDisplay = () => {
-  const [imgSrc, setImgSrc] = useState('https://images.dog.ceo/breeds/hound-english/n02089973_612.jpg');
+  const [imgSrc, setImgSrc] = useState(
+    "https://images.dog.ceo/breeds/hound-english/n02089973_612.jpg"
+  );
 
-  useEffect(async () => {
-    try {
-      const response = await fetch('https://dog.ceo/api/breeds/image/random');
-      if (!response.ok) throw new Error(`Error: ${response.status}`)
-      const data = await response.json();
-      setImgSrc(data.message);
-    } catch (error) {
-      console.error(error);
-    }
+  useEffect(() => {
+    const fetchHandler = async () => {
+      try {
+        const response = await fetch("https://dog.ceo/api/breeds/image/random");
+        if (!response.ok) throw new Error(`Error: ${response.status}`);
+        const data = await response.json();
+        setImgSrc(data.message);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    fetchHandler();
   }, []);
 
-  return <img src={imgSrc} />
-}
+  return <img src={imgSrc} />;
+};
 ```
 
 After fixing the code provide and explanation to what you fixed and why it needed to be fixed.
