@@ -8,6 +8,8 @@ In your own words, explain why React is a popular choice for building user inter
 
 ### Response 1
 
+React is a popular choice for building projects because it streamlines the DOM manipulation process and makes the connecting javascript functionality with HTML elements more efficient. One of the biggest benefits is that React is written with HTML-like syntax, so all the tags and attributes that one might be familiar with in HTML translate really well into React.
+
 ## Prompt 2
 
 Explain how the useState hook is used in React to manage state within functional components. In your response, include an example of how useState might be used in a simple application and why managing state is important in building interactive user interfaces.
@@ -33,13 +35,26 @@ const Counter = () => {
 };
 ```
 
-export default Counter;
-
 ## Prompt 3
 
 Describe the different ways the useEffect hook can be triggered in a React component. Include an explanation of how the dependency array influences its behavior. If possible, provide a code example for each scenario to illustrate your explanation.
 
 ### Response 3
+
+useEffect has 2 parameters, the first being it's function i.e. what will happen when useEffect triggered,. The second parameter is what determines what things trigger the page to re-render, it's referred to as its dependency, and this parameter has a couple of different configurations.
+
+1. _No dependency_: when a dependency isn't provided, the useEffect's function will run _every time_ the page is _rendered_ and _re-rendered_. looks like this:
+   ```jsx
+   useEffect(() => {}); //nothing after the function
+   ```
+2. _Empty array_: when an empty array is passed in, the useEffect's function will run _once_ after the _initial_ render of the page. looks like this:
+   ```jsx
+   useEffect(() => {}, []); //empty array after the function, separated by a comma
+   ```
+3. _Array with values_: when an array with _dynamic values_ is passed in, the useEffect's function will run _every time_ those values _change_. looks like this:
+   ```jsx
+   useEffect(() => {}, [a, b]); // re-renders when a or b change
+   ```
 
 ## Prompt 4
 
@@ -72,3 +87,5 @@ const DogDisplay = () => {
 After fixing the code provide and explanation to what you fixed and why it needed to be fixed.
 
 ### Response 4
+
+The useEffect React hook was orinally declared as an async function which is not correct because as we know async functions return promises and React's useEffect expects the function to return nothing (undefined) or to return a clean up function that runs when the component unmounts.
