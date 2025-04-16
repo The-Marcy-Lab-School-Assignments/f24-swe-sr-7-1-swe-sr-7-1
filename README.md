@@ -20,6 +20,20 @@ Describe the different ways the useEffect hook can be triggered in a React compo
 
 ### Response 3
 
+The `useEffect` hook can be triggered once at the loading of the app if its dependency array is empty. If the dependency array contains the name of a variable or function, the code written within the hook will commit whenever one of these dependencies is triggered.
+
+For example, the following code logs the message about the starting count once, but whenever count is changed, it logsthe new count to the console
+
+```js
+  import React, { useState, useEffect } from 'react';
+
+  const [count, setCount] = useState(0);
+
+  useEffect(() => console.log('Starting Count: 0'), []);
+
+  useEffect(() => console.log(`New Count: ${count}`), [count]);
+```
+
 ## Prompt 4
 
 The component below makes a mistake when using useEffect. When running this code, we will get an error from React! Please fix this code.
@@ -28,15 +42,20 @@ The component below makes a mistake when using useEffect. When running this code
 const DogDisplay = () => {
   const [imgSrc, setImgSrc] = useState('https://images.dog.ceo/breeds/hound-english/n02089973_612.jpg');
 
-  useEffect(async () => {
-    try {
-      const response = await fetch('https://dog.ceo/api/breeds/image/random');
-      if (!response.ok) throw new Error(`Error: ${response.status}`)
-      const data = await response.json();
-      setImgSrc(data.message);
-    } catch (error) {
-      console.error(error);
+  useEffect(() => {
+    
+    const fetchImage = async () => {
+      try {
+        const response = await fetch('https://dog.ceo/api/breeds/image/random');
+        if (!response.ok) throw new Error(`Error: ${response.status}`)
+        const data = await response.json();
+        setImgSrc(data.message);
+      } catch (error) {
+        console.error(error);
+      }
     }
+
+    fetchImage();
   }, []);
 
   return <img src={imgSrc} />
@@ -46,3 +65,5 @@ const DogDisplay = () => {
 After fixing the code provide and explanation to what you fixed and why it needed to be fixed.
 
 ### Response 4
+
+I put the contents of `useEffect` into an asynchronous function and invoked it. Since `useEffect` cannot be asynchronous, another nested asynchronous function was required for the use of `await`.
